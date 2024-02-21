@@ -16,13 +16,36 @@ import {
   Select,
 } from "./styles";
 import { CiCircleInfo } from "react-icons/ci";
+import { useContext, useEffect } from "react";
+import { CoinContext } from "../../providers/CoinContext";
+import { Abbreviation } from "../../utils/Abbreviation";
 
 export const FormTrade = () => {
+  const {
+    setCoin,
+    setCoinTrading,
+    coin,
+    coinTrading,
+    value,
+    setValue,
+    findCurrency,
+    computeCurrency,
+    result,
+    dataCurrency,
+  } = useContext(CoinContext);
+
+  useEffect(() => {
+    findCurrency();
+  }, []);
+
+  useEffect(() => {
+    findCurrency();
+  }, [coin, coinTrading]);
+
   const currency = (e: React.FormEvent<HTMLInputElement>) => {
     let value = e.currentTarget.value;
     value = value.replace(/\D/g, "");
-    value = value.replace(/(\d)(\d{2})$/, "$1,$2");
-    value = value.replace(/(?=(\d{3})+(\D))\B/g, ".");
+    value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
     e.currentTarget.value = value;
     return e;
   };
@@ -32,15 +55,30 @@ export const FormTrade = () => {
         <Label>
           Valor
           <span>$</span>
-          <Input type="text" placeholder="1,00" onKeyUp={currency} />
+          <Input
+            type="text"
+            placeholder="1,00"
+            onKeyUp={currency}
+            value={value}
+            onChange={(e) => {
+              setValue(e.currentTarget.value);
+            }}
+          />
         </Label>
 
         <Label htmlFor="">
           De
-          <Select name="" id="">
-            <option value="BRL" selected={true}>
-              BRL - Real Brasileiro
-            </option>
+          <Select
+            name=""
+            id=""
+            value={coin}
+            onChange={(e) => {
+              setCoin(e.target.value);
+              findCurrency();
+              computeCurrency();
+            }}
+          >
+            <option value="BRL">BRL - Real Brasileiro</option>
             <option value="USD">USD - Dólar dos EUA</option>
             <option value="EUR">EUR - Euro</option>
             <option value="GBP">GBP - Libra esterlina</option>
@@ -54,17 +92,33 @@ export const FormTrade = () => {
             <option value="RUB">RUB - Rublo russo</option>
           </Select>
         </Label>
-        <ButtonSwap>
+        <ButtonSwap
+          onClick={(e) => {
+            e.preventDefault();
+            const opt = coin;
+            setCoin(coinTrading);
+            setCoinTrading(opt);
+            findCurrency();
+            computeCurrency();
+          }}
+        >
           <IoIosSwap />
         </ButtonSwap>
 
         <Label htmlFor="">
           Para
-          <Select name="" id="">
+          <Select
+            name=""
+            id=""
+            value={coinTrading}
+            onChange={(e) => {
+              setCoinTrading(e.target.value);
+              findCurrency();
+              computeCurrency();
+            }}
+          >
             <option value="BRL">BRL - Real Brasileiro</option>
-            <option value="USD" selected={true}>
-              USD - Dólar dos EUA
-            </option>
+            <option value="USD">USD - Dólar dos EUA</option>
             <option value="EUR">EUR - Euro</option>
             <option value="GBP">GBP - Libra esterlina</option>
             <option value="CAD">CAD - Dólar canadense</option>
@@ -80,12 +134,27 @@ export const FormTrade = () => {
       </FormContainer>
 
       <ResultContainer>
-        <ResultParagraph>1,00 Real brasileiro =</ResultParagraph>
-        <ResultTitle>0,18766547 Euro</ResultTitle>
-        <ResultSpan>1 EUR = 5,32863 BRL</ResultSpan>
+        <ResultParagraph>
+          {value} {Abbreviation(coin)} =
+        </ResultParagraph>
+        <ResultTitle>
+          {result} {Abbreviation(coinTrading)}
+        </ResultTitle>
+        <ResultSpan>
+          1 {Abbreviation(coinTrading)} ={" "}
+          {dataCurrency?.bid ? dataCurrency.bid : "0,00"} {Abbreviation(coin)}
+        </ResultSpan>
       </ResultContainer>
       <ButtonContainer>
-        <ButtonForm>Converter</ButtonForm>
+        <ButtonForm
+          onClick={(e) => {
+            e.preventDefault();
+            findCurrency();
+            computeCurrency();
+          }}
+        >
+          Converter
+        </ButtonForm>
       </ButtonContainer>
       <InfoContainer>
         <CiCircleInfo />

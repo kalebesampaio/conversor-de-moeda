@@ -18,7 +18,7 @@ export const HomeContainer = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: start;
 
     @media only screen and (max-width: 600px) {
       flex-direction: column;

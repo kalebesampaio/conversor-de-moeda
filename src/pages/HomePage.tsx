@@ -1,18 +1,21 @@
+import { useContext } from "react";
 import { FormTrade } from "../components/Form";
 import { PriceList } from "../components/PriceList";
 import { HomeContainer, HomeStyles, HomeTitle } from "./styles";
+import { CoinContext } from "../providers/CoinContext";
 
 export const HomePage = () => {
+  const { coin, coinTrading } = useContext(CoinContext);
   return (
     <HomeStyles>
       <HomeContainer>
         <HomeTitle>
-          Converter 5 Real brasileiro para Dólar dos EUA - BRL para USD
+          Converter Real brasileiro para Dólar dos EUA - BRL para USD
         </HomeTitle>
         <FormTrade />
         <section>
-          <PriceList />
-          <PriceList />
+          <PriceList coin={coin} coinin={coinTrading} mult="sim" />
+          <PriceList coin={coinTrading} coinin={coin} mult="nao" />
         </section>
       </HomeContainer>
     </HomeStyles>
