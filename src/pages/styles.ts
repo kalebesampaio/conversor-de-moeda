@@ -12,6 +12,19 @@ export const HomeContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+
+  section {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @media only screen and (max-width: 600px) {
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
 `;
 export const HomeTitle = styled.h1`
   text-align: center;
@@ -22,8 +35,5 @@ export const HomeTitle = styled.h1`
   @media only screen and (min-width: 770px) {
     font-size: 3rem;
   }
-
-  @media only screen and (max-width: 600px) {
-    margin-top: 100px;
-  }
+  margin-top: 100px;
 `;
