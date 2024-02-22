@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import { IContext, IData } from "../interfaces";
 import { api } from "../services/api";
+import { toast } from "react-toastify";
 
 const CoinContext = createContext<IContext>({} as IContext);
 
@@ -23,9 +24,13 @@ const CoinProvider = ({ children }: Props) => {
       const { data } = await api.get(`json/last/${coiin}-${coinin}`);
       return data?.[`${coiin}${coinin}`];
     }
-
-    const { data } = await api.get(`json/last/${coin}-${coinTrading}`);
-    setDataCurrency(data?.[`${coin}${coinTrading}`]);
+    try {
+      const { data } = await api.get(`json/last/${coin}-${coinTrading}`);
+      setDataCurrency(data?.[`${coin}${coinTrading}`]);
+    } catch (error) {
+      console.error(error);
+      toast.error("Ops, aconteceu algum erro no servidor!");
+    }
   };
 
   const computeCurrency = (): void => {

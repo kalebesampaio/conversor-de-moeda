@@ -63,28 +63,17 @@ input{
     outline: 0;
 }
 
+div{
+	font-size: 1rem;
+}
+
 //Colors
 
 
 :root{
-//Brand
-    --brand1: #4529E6;
-    --brand2: #5126ea;
-    --brand3: #B0A6F0;
-    --brand4: #edeafd;
+
 
 //Grey Scale
-    --grey0: #0b0d0d;   
-    --grey1: #212529;
-    --grey2: #495057;
-    --grey3: #868E96;
-    --grey4: #ADB5BD;
-    --grey5: #CED4DA;
-    --grey6: #DEE2E6;
-    --grey7: #E9ECEF;
-    --grey8: #F1F3F5;
-    --grey9: #F8F9FA;
-    --grey10: #FDFDFD;
     --whiteFixed: #FFFFFF;
 
 //FeedBack
